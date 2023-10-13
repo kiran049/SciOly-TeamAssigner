@@ -1,16 +1,18 @@
 import pandas as pd
 
 form = pd.read_csv('form.csv')
-numberOfStudents = form.shape[0]
 
 Students = []
 amtOfEventsPerStudent = 5
 team_dict = {}
+Teams = []
+maxTeamsForEachEvent = 3
 
-teamCounter = 0
+teamCounter = 1
 
 
 def createListofStudents():
+    numberOfStudents = form.shape[0]
     names = []  # names of students
 
     i = 0
@@ -24,100 +26,263 @@ def createListofStudents():
         Students.append(names[j])
         j += 1
 
+    k = 0
+    for k in range(numberOfStudents):
+        Students[k].partnerValuesToObjects()
+        k += 1
+
 
 class Student:
     def __init__(self, name, event1, event2, event3, event4, event5, partnersEvent1, partnersEvent2, partnersEvent3,
                  partnersEvent4, partnersEvent5):
+        self.teams = []
+
         self.name = name
-        self.firstEvent = event1
-        self.secondEvent = event2
-        self.thirdEvent = event3
-        self.fourthEvent = event4
-        self.fifthEvent = event5
-        self.events = [event1, event2, event3, event4, event5]
+        self.firstEvent = str(event1)  # Convert to string
+        self.secondEvent = str(event2)  # Convert to string
+        self.thirdEvent = str(event3)  # Convert to string
+        self.fourthEvent = str(event4)  # Convert to string
+        self.fifthEvent = str(event5)  # Convert to string
+        self.events = [self.firstEvent, self.secondEvent, self.thirdEvent, self.fourthEvent, self.fifthEvent]
 
-        if "," in partnersEvent1:
-            partnersEvent1 = partnersEvent1.split(",")
-        try:
-            if "," in partnersEvent2:
-                partnersEvent2 = partnersEvent2.split(",")
-        except TypeError:
-            partnersEvent2 = None
-        try:
-            if "," in partnersEvent3:
-                partnersEvent3 = partnersEvent3.split(",")
-        except TypeError:
-            partnersEvent3 = None
-        try:
-            if "," in partnersEvent4:
-                partnersEvent4 = partnersEvent4.split(",")
-        except TypeError:
-            partnersEvent4 = None
-        try:
-            if "," in partnersEvent5:
-                partnersEvent5 = partnersEvent5.split(",")
-        except TypeError:
-            partnersEvent5 = None
+        self.partnersForFirstEvent = self.extract_partner_list(partnersEvent1)
+        self.partnersForSecondEvent = self.extract_partner_list(partnersEvent2)
+        self.partnersForThirdEvent = self.extract_partner_list(partnersEvent3)
+        self.partnersForFourthEvent = self.extract_partner_list(partnersEvent4)
+        self.partnersForFifthEvent = self.extract_partner_list(partnersEvent5)
+        self.partners = [self.partnersForFirstEvent, self.partnersForSecondEvent, self.partnersForThirdEvent,
+                         self.partnersForFourthEvent, self.partnersForFifthEvent]
 
 
-        self.partnersFirstEvent = partnersEvent1
-        self.partnersSecondEvent = partnersEvent2
-        self.partnersThirdEvent = partnersEvent3
-        self.partnersFourthEvent = partnersEvent4
-        self.partnersFifthEvent = partnersEvent5
-        self.partners = [partnersEvent1, partnersEvent2, partnersEvent3, partnersEvent4, partnersEvent5]
+    def partnerValuesToObjects(self):
+        for i in range(amtOfEventsPerStudent):
+            if isinstance(self.partners[i], list):
+                for j in range(len(self.partners[i])):
+                    partner_name = self.partners[i][j]
+                    if partner_name:
+                        # Use strip() and lower() to normalize the strings for comparison
+                        for student in Students:
+                            if str(partner_name).strip().lower() == str(student.name).strip().lower():
+                                self.partners[i][j] = student
+            elif self.partners[i] is not None:
+                # Handle the case where self.partners[i] is not a list
+                partner_name = self.partners[i]
+                for student in Students:
+                    if str(partner_name).strip().lower() == str(student.name).strip().lower():
+                        self.partners[i] = student
+
+    def extract_partner_list(self, partners_str):
+        if partners_str is None:
+            return []
+        elif isinstance(partners_str, str) and "," in partners_str:
+            return [partner.strip() for partner in partners_str.split(",")]
+        elif isinstance(partners_str, str):
+            return [partners_str.strip()]
+        else:
+            return []  # Handle the case where partners_str is not a string or is None
+
+    def checkForOverlappingEvents(self):
+        overlapping_event_sets = {
+            "row 1": set(["Anatomy & Physiology", "Dynamic Planet", "Wind Power"]),
+            "row 2": set(["Can't Judge a Powder", "Ecology", "WIDI"]),
+            "row 3": set(["Experimental Design", "Fossils", "Microbe Mission"]),
+            "row 4": set(["Disease Detectives", "Fast Facts", "Meteorology"]),
+            "row 5": set(["Code Busters", "Forestry", "Reach for the Stars"]),
+            "row 6": set(["Crime Busters", "Optics", "Road Scholar"])
+        }
+
+        for set_name, event_set in overlapping_event_sets.items():
+            overlapping_events = [event for event in self.events if event in event_set]
+            if len(overlapping_events) > 1:
+                print(f'WARNING: STUDENT {self.name} HAS OVERLAPPING EVENTS IN {set_name} of the Overlapping Events image')
 
 
 class Team:
-    def __init__(self, person1, person2, person3, event):
-        self.members = [person1, person2, person3]
+    def __init__(self, teamNumber, event, person1, person2, person1EventPreference, person2EventPreference, person3,
+                 person3EventPreference):
+        strippedTeamNumber = str(teamNumber).strip("{}")
+        self.teamNumber = strippedTeamNumber
+        self.person1 = person1
+        person1.teams.append(teamNumber)
+        self.person2 = person2
+        person2.teams.append(teamNumber)
+        self.person3 = person3
+        self.person1EventPreference = person1EventPreference
+        self.person2EventPreference = person2EventPreference
+        self.person3EventPreference = person3EventPreference
+
+        if self.person3 is None:
+            self.members = [person1, person2]
+            self.groupEventPreference = (person1EventPreference + person2EventPreference) / 2
+        else:
+            self.members = [person1, person2, person3]
+            self.groupEventPreference = (person1EventPreference + person2EventPreference + person3EventPreference) / 3
+            person3.teams.append(teamNumber)
         self.event = event
 
+    def checkMaxEvents(self):
+        TeamsWithSameEvent = [self]
+        for team in Teams:
+            if team != self:
+                if team.event == self.event:
+                    TeamsWithSameEvent.append(team)
+        userOptOut = False
+        while len(TeamsWithSameEvent) > maxTeamsForEachEvent and not userOptOut:
+            maxEventsFixDecision = input(
+                f"MAX EVENT # REACHED: There are more than {maxTeamsForEachEvent} teams for event {self.event}. Would you like to assign a random event to one (or more) of these groups (random)? Y or N ")
+            if maxEventsFixDecision.lower() == "yes" or maxEventsFixDecision.lower() == "y":
+                min_group_event_preference = min(team.groupEventPreference for team in TeamsWithSameEvent)
 
-def createTeam(person1, person2, person3=None):
+                teams_with_lowest_preference = [team for team in TeamsWithSameEvent if
+                                                team.groupEventPreference == min_group_event_preference]
+                teamRemoved = []
+                for team in teams_with_lowest_preference:
+                    teamRemoved = team
+                    TeamsWithSameEvent.remove(teamRemoved)
+
+                teamRemoved.event = "Preferred Event was full, ask group which event they would like instead"
+
+                print(
+                    f"Team {teamRemoved.teamNumber} with the minimum group event preference for {self.event} has been removed.")
+            elif maxEventsFixDecision.lower() == "no" or maxEventsFixDecision.lower() == "n":
+                userOptOut = True
+
+
+
+def createTeam(person1, person2, event, person1EventPreference, person2EventPreference, person3=None,
+               person3EventPreference=None):
     global teamCounter
+
+    # Check if a team with the same members already exists
+
+    for team in Teams:
+        if person3 is not None:
+            if set([person1, person2, person3]) == set(team.members):
+                return  # A team with the same members already exists
+
+        if set([person1, person2]) == set(team.members):
+            return  # A team with the same members already exists
+    # If no matching team is found, create a new team
     if person3 is not None:
-        team_dict[f"Team {teamCounter}"] = Team(person1, person2, person3)
+        team_dict[f"Team {teamCounter}"] = Team({teamCounter}, event, person1, person2, person1EventPreference,
+                                                person2EventPreference, person3, person3EventPreference)
+        Teams.append(team_dict[f"Team {teamCounter}"])
+        teamCounter += 1
+    elif person3 is None:
+        team_dict[f"Team {teamCounter}"] = Team({teamCounter}, event, person1, person2, person1EventPreference,
+                                                person2EventPreference, person3, person3EventPreference)
+        Teams.append(team_dict[f"Team {teamCounter}"])
+        teamCounter += 1
     else:
-        team_dict[f"Team {teamCounter}"] = Team(person1, person2)
+        raise Exception("failed to make team")
 
-    teamCounter += 1
-
-
-def compare_names(student, partner):
-    if isinstance(partner, list):
-        for p in partner:
-            if compare_names(student, p):
-                return True
-        return False
-    return student == partner
 
 def createTeams():
+    # Iterate through each student
+    for student1 in Students:
+        # Iterate through all other students
+        for student2 in Students:
+            if student1 != student2:  # not comparing the same student
 
-    if compare_names(Students[0].name, Students[1].partners[1]):
-        if isinstance(Students[1].partners[1], list):
-            createTeam(Students[0].name, Students[1].partners[1][0], Students[1].partners[1][1])
-        else:
+                # if student2.name == "Billy J":
+                # print("STUDENT 2 BILLY J SEARCHING WITH" + student1.name)
 
-            createTeam(Students[0].name, Students[1].partners[1], )
-    # students = 0
-    # for students in range(len(Students)):
-    #     otherStudents = 0  # Reset otherStudents for each student
-    #     for otherStudents in range(len(Students)):
-    #         for i in range(amtOfEventsPerStudent):
-    #             print(Students[students].name, Students[otherStudents].partners[i])
-    #
-    #             if compare_names(Students[students].name, Students[otherStudents].partners[i]):
-    #                 createTeam(Students[students].name, Students[otherStudents].partners[i])
-    #             i += 1
-    #         otherStudents += 1
-    #     students += 1
+                for partner in student2.partners:
+                    event = None
+                    student3 = None
+                    person3EventPreference = None
+                    person2EventPreference = None
+                    person1EventPreference = None
+                    if not partner:
+                        break
+
+                    # print(partner[0].name + student1.name)
+
+                    if len(partner) == 2:  # check if in the partners list there is a list of 2 people, indicating a 3 person team
+                        if partner[0] == student1:
+                            student3 = partner[1]
+                        elif partner[1] == student1:
+                            student3 = partner[0]
+                        else:
+                            raise Exception('failed to locate 3rd partner in 1 or more groups that contain 3 members')
+
+                        # find event index
+                        for index, partner in enumerate(student3.partners):
+                            if len(partner) == 2:
+                                if set(partner) == set([student1, student2]):
+                                    event = student3.events[index]
+                                    person3EventPreference = index
+                                    break
+
+                        for index, partner in enumerate(student2.partners):
+                            if len(partner) == 2:
+                                if set(partner) == set([student1, student3]):
+                                    person2EventPreference = index
+                                    break
+
+                        for index, partner in enumerate(student1.partners):
+                            if len(partner) == 2:
+                                if set(partner) == set([student2, student3]):
+                                    person1EventPreference = index
+                                    break
+                        createTeam(student1, student2, event, person1EventPreference, person2EventPreference, student3,
+                                   person3EventPreference)
+
+
+                    elif student1 == partner[
+                        0]:  # if student1 is found in student2's desired partners, create 2 person team
+                        for index, partner in enumerate(student1.partners):
+                            if len(partner) == 1:
+                                if partner[0] == student2:
+                                    event = student1.events[index]
+                                    person1EventPreference = index
+
+                        for index, partner in enumerate(student2.partners):
+                            if len(partner) == 1:
+                                if partner[0] == student1:
+                                    person2EventPreference = index
+
+                        createTeam(student1, student2, event, person1EventPreference, person2EventPreference, student3,
+                                   person3EventPreference)
+
 
 def main():
     createListofStudents()
     createTeams()
-    i = 0
-    print(team_dict)
+
+
+    for team in Teams:
+        print(f"Team:", team.teamNumber)
+
+        print(team.event)
+        for member in team.members:
+            print(member.name)
+
+    for student in Students:
+        student.checkForOverlappingEvents()
+
+    for team in Teams:
+        team.checkMaxEvents()
+
+
+    team_data = {
+        'Team Number': [team.teamNumber for team in Teams],
+        'Event': [team.event for team in Teams],
+        'Members': [', '.join([member.name for member in team.members]) for team in Teams],
+    }
+
+    team_df = pd.DataFrame(team_data)
+
+    student_data = {
+        'Student Name': [student.name for student in Students],
+        'Teams': [', '.join([f"Team {team}" for team in student.teams]) for student in Students],
+    }
+
+    student_df = pd.DataFrame(student_data)
+    student_df.to_excel("students.xlsx")
+
+    team_df.to_excel("teams.xlsx")
+
 
 if __name__ == "__main__":
     main()
