@@ -16,3 +16,6 @@ Make sure in the CSV file that:
 * All **partners in the partner fields reference a name that can be EXACTLY linked back to a name in the name column.** The formatting cannot differ for ANY names wherever they may be.
 * Any fields where there is not meant to be any data must be left blank.
 **Make sure the example CSV file matches yours. The rows and columns should have identical fields.**
+
+## How to Use the Project
+In TeamSorter.py, make sure on this line `form = pd.read_csv('form.csv')` that 'form.csv' is instead the name of your CSV file in the project folder. Ensure that pandas is installed and all formatting is correct, then run the program. The program will create 2 Excel spreadsheets. One with all all the students and the teams that they are on. The other Excel spreadsheet contains all the teams, along with which event they're doing, and the members that belong to the team.
