@@ -183,10 +183,6 @@ def createTeams():
         # Iterate through all other students
         for student2 in Students:
             if student1 != student2:  # not comparing the same student
-
-                # if student2.name == "Billy J":
-                # print("STUDENT 2 BILLY J SEARCHING WITH" + student1.name)
-
                 for partner in student2.partners:
                     event = None
                     student3 = None
@@ -195,9 +191,6 @@ def createTeams():
                     person1EventPreference = None
                     if not partner:
                         break
-
-                    # print(partner[0].name + student1.name)
-
                     if len(partner) == 2:  # check if in the partners list there is a list of 2 people, indicating a 3 person team
                         if partner[0] == student1:
                             student3 = partner[1]
@@ -249,21 +242,6 @@ def createTeams():
 def main():
     createListofStudents()
     createTeams()
-
-
-    for team in Teams:
-        print(f"Team:", team.teamNumber)
-
-        print(team.event)
-        for member in team.members:
-            print(member.name)
-
-    for student in Students:
-        student.checkForOverlappingEvents()
-
-    for team in Teams:
-        team.checkMaxEvents()
-
 
     team_data = {
         'Team Number': [team.teamNumber for team in Teams],
