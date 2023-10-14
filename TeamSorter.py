@@ -200,39 +200,38 @@ def createTeams():
                             raise Exception('failed to locate 3rd partner in 1 or more groups that contain 3 members')
 
                         # find event index
-                        for index, partner in enumerate(student3.partners):
-                            if len(partner) == 2:
-                                if set(partner) == set([student1, student2]):
+                        for index, partner3 in enumerate(student3.partners):
+                            if len(partner3) == 2:
+                                if set(partner3) == set([student1, student2]):
                                     event = student3.events[index]
                                     person3EventPreference = index
                                     break
 
-                        for index, partner in enumerate(student2.partners):
-                            if len(partner) == 2:
-                                if set(partner) == set([student1, student3]):
+                        for index, partner2 in enumerate(student2.partners):
+                            if len(partner2) == 2:
+                                if set(partner2) == set([student1, student3]):
                                     person2EventPreference = index
                                     break
 
-                        for index, partner in enumerate(student1.partners):
-                            if len(partner) == 2:
-                                if set(partner) == set([student2, student3]):
+                        for index, partner1 in enumerate(student1.partners):
+                            if len(partner1) == 2:
+                                if set(partner1) == set([student2, student3]):
                                     person1EventPreference = index
                                     break
                         createTeam(student1, student2, event, person1EventPreference, person2EventPreference, student3,
                                    person3EventPreference)
 
 
-                    elif student1 == partner[
-                        0]:  # if student1 is found in student2's desired partners, create 2 person team
-                        for index, partner in enumerate(student1.partners):
-                            if len(partner) == 1:
-                                if partner[0] == student2:
+                    elif student1 == partner[0]:  # if student1 is found in student2's desired partners, create 2 person team
+                        for index, partner1 in enumerate(student1.partners):
+                            if len(partner1) == 1:
+                                if partner1[0] == student2:
                                     event = student1.events[index]
                                     person1EventPreference = index
 
-                        for index, partner in enumerate(student2.partners):
-                            if len(partner) == 1:
-                                if partner[0] == student1:
+                        for index, partner2 in enumerate(student2.partners):
+                            if len(partner2) == 1:
+                                if partner2[0] == student1:
                                     person2EventPreference = index
 
                         createTeam(student1, student2, event, person1EventPreference, person2EventPreference, student3,
@@ -248,7 +247,6 @@ def main():
         'Event': [team.event for team in Teams],
         'Members': [', '.join([member.name for member in team.members]) for team in Teams],
     }
-
     team_df = pd.DataFrame(team_data)
 
     student_data = {
