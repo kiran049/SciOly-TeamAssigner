@@ -38,11 +38,11 @@ class Student:
         self.teams = []
 
         self.name = name
-        self.firstEvent = str(event1)  # Convert to string
-        self.secondEvent = str(event2)  # Convert to string
-        self.thirdEvent = str(event3)  # Convert to string
-        self.fourthEvent = str(event4)  # Convert to string
-        self.fifthEvent = str(event5)  # Convert to string
+        self.firstEvent = str(event1)
+        self.secondEvent = str(event2)
+        self.thirdEvent = str(event3)
+        self.fourthEvent = str(event4)
+        self.fifthEvent = str(event5)
         self.events = [self.firstEvent, self.secondEvent, self.thirdEvent, self.fourthEvent, self.fifthEvent]
 
         self.partnersForFirstEvent = self.extract_partner_list(partnersEvent1)
