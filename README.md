@@ -15,7 +15,7 @@ The CSV file must be formatted a certain way as the code processes specific cell
 The example CSV file was downloaded from a Google Form, this form can be seen here: [Form Outline](https://forms.gle/mSxMeamCyrZjJw727)
 Make sure in the CSV file that:
 * All **names** in the name field are **consistent with their formatting and do not vary** (punctuation, spaces).
-* All **event**s in the event fields are **consistent with their formatting and do not vary** (punctuation, spaces).
+* All **events** in the event fields are **consistent with their formatting and do not vary** (punctuation, spaces).
 * All **partners in the partner fields reference a name that can be EXACTLY linked back to a name in the name column.** The formatting cannot differ for ANY names wherever they may be.
 * Any fields where there is not meant to be any data must be left blank.
 **Make sure the example CSV file matches yours. The rows and columns should have identical fields.**
