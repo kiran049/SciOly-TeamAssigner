@@ -5,8 +5,10 @@ Create sci oly teams based on students' partner preferences and event preference
 
 1. extract as zip
 2. replace 'form.csv' with your own form answers reference [CSV Formatting](https://github.com/kiran049/SciOly-TeamAssigner#how-to-format-the-csv-file) for help with how to properly do this
-3. install the pandas library, used for CSV and XLSX analyzation:
+3. install the pandas library, used for CSV analysis:
    `pip install pandas`
+4. install the openpyxl library, used for Excel creation:
+   `pip install openpyxl`
 
 ## How to format the CSV file
 The CSV file must be formatted a certain way as the code processes specific cells, and if these do not match up then the code will be useless (this will be changed in the future). **Reference the example CSV file provided.**
