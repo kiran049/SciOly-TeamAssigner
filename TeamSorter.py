@@ -113,7 +113,6 @@ class Team:
 
         if self.person3 is None:
             self.members = [person1, person2]
-            print(person1EventPreference,person2EventPreference)
             self.groupEventPreference = (person1EventPreference + person2EventPreference) / 2
         else:
             self.members = [person1, person2, person3]
