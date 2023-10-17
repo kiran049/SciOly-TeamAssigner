@@ -67,12 +67,12 @@ class Student:
                 for j in range(len(self.partners[i])):
                     partner_name = self.partners[i][j]
                     if partner_name:
-                        # Use strip() and lower() to normalize the strings for comparison
+                        # strip() and lower() to normalize the strings for comparison
                         for student in Students:
                             if str(partner_name).strip().lower() == str(student.name).strip().lower():
                                 self.partners[i][j] = student
             elif self.partners[i] is not None:
-                # Handle the case where self.partners[i] is not a list
+                # handle the case where self.partners[i] is not a list
                 partner_name = self.partners[i]
                 for student in Students:
                     if str(partner_name).strip().lower() == str(student.name).strip().lower():
@@ -86,7 +86,7 @@ class Student:
         elif isinstance(partners_str, str):
             return [partners_str.strip()]
         else:
-            return []  # Handle the case where partners_str is not a string or is None
+            return []  # handle the case where partners_str is not a string or is None
 
     def checkForOverlappingEvents(self):
         student_events = set(self.events)
@@ -150,17 +150,17 @@ def createTeam(person1, person2, event, person1EventPreference, person2EventPref
                person3EventPreference=None):
     global teamCounter
 
-    # Check if a team with the same members and event already exists
+    # check if a team with the same members and event already exists
     for team in Teams:
-        if team.event == event:  # Ensure the same event
+        if team.event == event:
             if person3:
                 if set([person1, person2, person3]) == set(team.members):
-                    return  # A team with the same members and event already exists
+                    return  # a team with the same members and event already exists
             else:
                 if set([person1, person2]) == set(team.members):
-                    return  # A team with the same members and event already exists
+                    return  # a team with the same members and event already exists
 
-    # If no matching team is found, create a new team
+    # if no matching team is found, create a new team
     if person3:
         team_dict[f"Team {teamCounter}"] = Team({teamCounter}, event, person1, person2, person1EventPreference,
                                                 person2EventPreference, person3, person3EventPreference)
@@ -253,7 +253,7 @@ def createTeams():
 
                         # create a 3-person team
                         createTeam(student1, student2, event, person1EventPreference, person2EventPreference, student3, person3EventPreference)
-                        break  # Break here to avoid creating multiple teams for the same students
+                        break  # first prevention to avoid creating multiple teams for the same students
 
                     elif student1 == partner[0]:
                         for index, partner1 in enumerate(student1.partners):
@@ -269,7 +269,7 @@ def createTeams():
 
                         # create a 2-person team
                         createTeam(student1, student2, event, person1EventPreference, person2EventPreference, student3, person3EventPreference)
-                        break  # Break here to avoid duplicates
+                        break  # avoid duplicates
 
 
 
