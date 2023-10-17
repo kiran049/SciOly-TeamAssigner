@@ -277,7 +277,9 @@ def createTeams():
 def main():
     createListofStudents()
     createTeams()
-
+    
+    for team in Teams:
+        team.checkMaxEvents()
 
     team_data = {
         'Team Number': [team.teamNumber for team in Teams],
