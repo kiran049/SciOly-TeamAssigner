@@ -278,6 +278,7 @@ def main():
     createListofStudents()
     createTeams()
 
+
     team_data = {
         'Team Number': [team.teamNumber for team in Teams],
         'Event': [team.event for team in Teams],
@@ -291,9 +292,11 @@ def main():
     }
 
     student_df = pd.DataFrame(student_data)
-    student_df.to_excel("students.xlsx")
-
-    team_df.to_excel("teams.xlsx")
+    try:
+        student_df.to_excel("students.xlsx")
+        team_df.to_excel("teams.xlsx")
+    except PermissionError:
+        raise Exception('Please close all excel files before running the program!')
 
 
 if __name__ == "__main__":
