@@ -253,7 +253,6 @@ def createTeams():
 
                         # create a 3-person team
                         createTeam(student1, student2, event, person1EventPreference, person2EventPreference, student3, person3EventPreference)
-                        break  # first prevention to avoid creating multiple teams for the same students
 
                     elif student1 == partner[0]:
                         for index, partner1 in enumerate(student1.partners):
@@ -269,8 +268,6 @@ def createTeams():
 
                         # create a 2-person team
                         createTeam(student1, student2, event, person1EventPreference, person2EventPreference, student3, person3EventPreference)
-                        break  # avoid duplicates
-
 
 
 def main():
