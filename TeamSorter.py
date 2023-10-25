@@ -17,17 +17,17 @@ event_overlaps = pd.read_csv('eventOverlaps.csv')
 def createListofStudents():
     Students.extend([
         Student(
-            form.iat[i, 1],
-            form.iat[i, 3],
-            form.iat[i, 5],
-            form.iat[i, 7],
-            form.iat[i, 9],
-            form.iat[i, 11],
-            form.iat[i, 4],
-            form.iat[i, 6],
-            form.iat[i, 8],
-            form.iat[i, 10],
-            form.iat[i, 12]
+            form.iat[i, 1],  # name of student
+            form.iat[i, 3],  # event 1
+            form.iat[i, 5],  # event 2
+            form.iat[i, 7],  # event 3
+            form.iat[i, 9],  # event 4
+            form.iat[i, 11],  # event 5
+            form.iat[i, 4],  # partners for event 1
+            form.iat[i, 6],  # partners for event 2
+            form.iat[i, 8],  # partners for event 3
+            form.iat[i, 10],  # partners for event 4
+            form.iat[i, 12]  # partners for event 5
         )
         for i in range(form.shape[0])
     ])
@@ -40,7 +40,7 @@ def createListofTeams():
     for student in Students:
         for index, event in enumerate(student.events):
             if event != 'nan':
-                if event != "Experimental Design" and event != "Codebusters":
+                if event != "Experimental Design".lower() and event != "Codebusters".lower():
 
                     # if no partner, assign them one
                     if not student.partners[index]:
@@ -91,8 +91,9 @@ class Student:
     def __init__(self, name, event1, event2, event3, event4, event5, partnersEvent1, partnersEvent2, partnersEvent3,
                  partnersEvent4, partnersEvent5):
         self.teams = []
-        self.name = name
-        self.events = [str(event1), str(event2), str(event3), str(event4), str(event5)]
+        self.name = name.strip()
+        self.events = [str(event1).strip().lower(), str(event2).strip().lower(), str(event3).strip().lower(),
+                       str(event4).strip().lower(), str(event5).strip().lower()]
         self.partners = [self.extract_partner_list(partnersEvent1), self.extract_partner_list(partnersEvent2),
                          self.extract_partner_list(partnersEvent3),
                          self.extract_partner_list(partnersEvent4), self.extract_partner_list(partnersEvent5)]
@@ -129,9 +130,11 @@ class Student:
                 if wantBoolReturn:
                     return True
 
-                print(f'WARNING: STUDENT {self.name} has overlapping events in row {i + 1} of the overlapping event CSV.')
+                print(
+                    f'WARNING: STUDENT {self.name} has overlapping events in row {i + 1} of the overlapping event CSV.')
                 # write to exceptions file
-                exceptions.write(f"EVENT OVERLAP: {self.name} has overlapping events in row {i + 1} of the overlapping event CSV.\n")
+                exceptions.write(
+                    f"EVENT OVERLAP: {self.name} has overlapping events in row {i + 1} of the overlapping event CSV.\n")
         if wantBoolReturn:
             return False
 
@@ -168,6 +171,7 @@ class Team:
         self.event = event
 
     eventsChecked = []
+
     def checkMaxEvents(self):
         if self.event not in self.eventsChecked:
             self.eventsChecked.append(self.event)
@@ -263,7 +267,7 @@ def main():
 
     for team in Teams:
         team.checkMaxEvents()
-    print(len(Teams))
+
 
     for student in Students:
         student.checkForOverlappingEvents()
