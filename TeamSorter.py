@@ -1,6 +1,6 @@
 import pandas as pd
 
-form = pd.read_csv('SciOly.csv')
+form = pd.read_csv('form.csv')
 
 
 Students = []
