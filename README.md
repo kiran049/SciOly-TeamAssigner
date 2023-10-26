@@ -4,6 +4,7 @@ A console based app that creates sci oly teams based on students' partner prefer
 
 ## GUI Version
 ![image](https://github.com/kiran049/SciOly-TeamAssigner/assets/98996914/9c2a393c-fdba-4327-8831-f160db9cad13)
+
 If you wish to use the GUI version of this program use this repository: [GUI Repository](https://github.com/kiran049/SciOly-TeamAssigner/tree/GUI)
 
 ## How To Install and Setup
