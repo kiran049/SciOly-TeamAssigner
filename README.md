@@ -12,7 +12,7 @@ Create sci oly teams based on students' partner preferences and event preference
 
 ## How to format the CSV file
 The CSV file must be formatted a certain way as the code processes specific cells, and if these do not match up then the code will be useless (this will be changed in the future). **Reference the example CSV file provided (form.csv).**
-The example CSV file was downloaded from a Google Form, this form can be seen here: [Form Outline](https://forms.gle/mSxMeamCyrZjJw727)
+The example CSV file was downloaded from a Google Form, this form can be seen here: [Form Outline](https://forms.gle/mSxMeamCyrZjJw727). The program only supports CSV files extracted from this Google Form.
 Make sure in the CSV file that:
 * All **names** in the name field are **consistent with their formatting and do not vary** (punctuation, spaces).
 * All **events** in the event fields are **consistent with their formatting and do not vary** (punctuation, spaces).
