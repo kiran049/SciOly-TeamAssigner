@@ -1,5 +1,5 @@
 # SciOly-TeamAssigner
-Create sci oly teams based on students' partner preferences and event preferences.
+A console based app that creates sci oly teams based on students' partner preferences and event preferences. The program can consider **overlapping events, a max amount of teams per event, and can detect if there aren't any teams for a certain event.**
 
 ## How To Install and Setup
 
