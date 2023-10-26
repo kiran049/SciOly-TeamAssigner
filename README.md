@@ -4,7 +4,7 @@ Create sci oly teams based on students' partner preferences and event preference
 ## How To Install and Setup
 
 1. extract as zip
-2. replace 'form.csv' with your own form answers reference [CSV Formatting](https://github.com/kiran049/SciOly-TeamAssigner#how-to-format-the-csv-file) for help with how to properly do this
+2. replace 'SciOly.csv' with your own form answers reference [CSV Formatting](https://github.com/kiran049/SciOly-TeamAssigner#how-to-format-the-csv-file) for help with how to properly do this
 3. install the pandas library, used for CSV analysis:
    `pip install pandas`
 4. install the openpyxl library, used for Excel creation:
