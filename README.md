@@ -23,8 +23,8 @@ Make sure in the CSV file that:
 * Any fields where there is not meant to be any data must be left blank.
 **Make sure the example CSV file matches yours. The rows and columns should have identical fields.**
 
-## How to Use the Project
-Ensure all CSV files in your folder are named as how they are in this GitHub repository. Then, run it:
+## How to Use the Project and Run
+Ensure all CSV files in your folder are named as how they are in this GitHub repository. Now, open GUI.py and run it:
 ![image](https://github.com/kiran049/SciOly-TeamAssigner/assets/98996914/9283c3f8-09ca-436d-93fb-51c67676129f)
 
 Simply choose if you wish to have a max amount of teams per event, then enter the amount. Then, hit the assign teams button.
