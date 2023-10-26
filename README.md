@@ -23,7 +23,12 @@ Make sure in the CSV file that:
 ## How to Use the Project
 In TeamSorter.py, make sure on this line `form = pd.read_csv('form.csv')` that 'form.csv' is instead the name of your CSV file in the project folder. Ensure that pandas is installed and all formatting is correct, then run the program. The program will create 2 Excel spreadsheets. One with all all the students and the teams that they are on. The other Excel spreadsheet contains all the teams, along with which event they're doing, and the members that belong to the team.
 
-## Custom Overlapping Events
+## eventOverlaps.csv
 By default, the project uses the overlapping events listed in this image (student cannot have multiple events from the same row). You can use your own overlapping events if you wish by editing the attached `eventOverlaps.csv` file.
 ![OverlappingEvents](https://github.com/kiran049/SciOly-TeamAssigner/assets/98996914/26288038-c59b-44be-a306-e3be31db71cb)
 
+## allEvents.csv
+This project will check that there is at least 1 team for each event, and it will write a warning in `exceptions.txt`.
+
+## exceptions.txt
+All warnings will be written here and in the console. Any students who have overlapping events, any teams that were deleted due to being over the max team per event limit, or any events that don't have teams will be documented here.
